@@ -28,7 +28,7 @@ public class PhoneToCountryConverterService {
             result.add(country);
             return result;
         }
-        String phoneNumber = phone.replaceAll("[^0-9/+?]", "");
+        String phoneNumber = phone.replaceAll(" ", "");
         if (phoneNumber.length() > 8) {
             phoneNumber = phoneNumber.substring(0, 8);
         }

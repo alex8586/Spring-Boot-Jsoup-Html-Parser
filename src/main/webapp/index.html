@@ -27,7 +27,12 @@
             var phone = $('#phoneNumber').val();
 
             if(phone.length == 0 || !phone.trim()){
-                $('.response').append("Field can't be empty").css('color','red')
+                $('.response').append("Field can't be empty").css('color','red');
+                return;
+            }
+            if(phone.length > 30){
+                $('.response').append("Number can't be longer than 30 symbols").css('color', 'red');
+                return;
             }
             $.ajax({
                 url: 'http://localhost:8080/api/' + phone,
@@ -39,6 +44,9 @@
                             $('.response').append(v + "<br> ").css('color','#555');
                         })
                     })
+                },
+                error: function() {
+                    $('.response').append("At this moment server unavialable, try next time");
                 }
             });
         })

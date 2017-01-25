@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrapper">
+
+        <div class="center">
+            <p id="p">Please, enter phone number </p>
+            <input id="phoneNumber" type="text" name="phoneNumber">
+            <input id="btn" type="submit" value="Find country">
+            <div class="response">
+
+            </div>
+        </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#btn').click(function () {
+            $(".response").html("");
+            var phone = $('#phoneNumber').val();
+
+            if(phone.length == 0 || !phone.trim()){
+                $('.response').append("Field can't be empty").css('color','red')
+            }
+            $.ajax({
+                url: 'http://localhost:8080/api/' + phone,
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    $.each(data, function () {
+                        $.each(this, function (k, v) {
+                            $('.response').append(v + "<br> ").css('color','#555');
+                        })
+                    })
+                }
+            });
+        })
+    });
+
+</script>
+</body>
+</html>

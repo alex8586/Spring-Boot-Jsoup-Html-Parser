@@ -39,18 +39,38 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function (data) {
-                    $.each(data, function () {
+                    $.each(data, function (k, v) {
                         $.each(this, function (k, v) {
+                            if(v == null){
+                                return true;
+                            }
                             $('.response').append(v + "<br> ").css('color','#555');
                         })
                     })
                 },
-                error: function() {
-                    $('.response').append("At this moment server unavialable, try next time");
+                error: function (jqXHR, exception) {
+                    var msg = '';
+                    if (jqXHR.status === 0) {
+                        msg = 'Not connect.\n Verify Network.';
+                    } else if (jqXHR.status == 404) {
+                        msg = 'Requested page not found. [404]';
+                    } else if (jqXHR.status == 500) {
+                        msg = 'Internal Server Error [500].';
+                    } else if (exception === 'parsererror') {
+                        msg = 'Requested JSON parse failed.';
+                    } else if (exception === 'timeout') {
+                        msg = 'Time out error.';
+                    } else if (exception === 'abort') {
+                        msg = 'Ajax request aborted.';
+                    } else {
+                        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                    }
+                    $('.response').append(msg);
                 }
             });
         })
     });
+
 
 </script>
 </body>

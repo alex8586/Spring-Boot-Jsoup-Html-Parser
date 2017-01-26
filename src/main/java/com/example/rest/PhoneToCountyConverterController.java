@@ -1,6 +1,10 @@
 package com.example.rest;
 
 import com.example.domain.Country;
+import com.example.dto.SearchCountryDto;
+import com.example.dto.SearchCountryListConverterDto;
+import com.example.exception.CountryNotExistException;
+import com.example.exception.NotValidDataException;
 import com.example.service.PhoneToCountryConverterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,8 +20,18 @@ public class PhoneToCountyConverterController {
     @Autowired
     private PhoneToCountryConverterService phoneToCountryConverterService;
 
+    @Autowired
+    private SearchCountryListConverterDto listConverterDto;
+
     @RequestMapping(value = "/api/{phone}", method = RequestMethod.GET)
-    public List<Country> getCountry(@PathVariable("phone") String phone) {
-        return phoneToCountryConverterService.getCountryByPhone(phone);
+    public List<SearchCountryDto> getCountry(@PathVariable("phone") String phone) {
+        try {
+            List<Country> countryList = phoneToCountryConverterService.getListCountries(phone);
+            return listConverterDto.convert(countryList);
+        } catch (NotValidDataException e) {
+            return listConverterDto.convert(e);
+        } catch (CountryNotExistException e) {
+            return listConverterDto.convert(e);
+        }
     }
 }

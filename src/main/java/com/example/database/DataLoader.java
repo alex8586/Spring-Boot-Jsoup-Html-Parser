@@ -8,5 +8,5 @@ import java.util.Map;
 
 public interface DataLoader {
 
-    Map<String, List<Country>> init() throws IOException;
+    Map<String, List<Country>> loadData() throws IOException;
 }

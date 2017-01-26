@@ -22,7 +22,7 @@ public class DataLoaderImpl implements DataLoader {
 
     private Map<String,List<Country>> countryList = new HashMap<>();
 
-    public Map<String, List<Country>> init() throws IOException {
+    public Map<String, List<Country>> loadData() throws IOException {
         Document document = Jsoup.connect(link).get();
         Element table = document.getElementsByTag("table").get(1);
         Element tbody = table.select("tbody").first();

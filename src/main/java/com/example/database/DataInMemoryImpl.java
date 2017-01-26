@@ -17,7 +17,7 @@ public class DataInMemoryImpl implements DataInMemory {
     @Autowired
     public DataInMemoryImpl(DataLoader dataLoader) {
         try {
-            this.data = dataLoader.init();
+            this.data = dataLoader.loadData();
         } catch (IOException e) {
             e.printStackTrace();
         }

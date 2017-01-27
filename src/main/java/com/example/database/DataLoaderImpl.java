@@ -57,7 +57,7 @@ public class DataLoaderImpl implements DataLoader {
             }
         }
 //        countryList.forEach((k, v) -> System.out.println(k + " " + v.toString()));
-        System.out.println("list size = " + countryList.size());
+//        System.out.println("list size = " + countryList.size());
         return  countryList;
     }
 }

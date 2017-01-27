@@ -3,30 +3,31 @@ package com.example.dto;
 import com.example.domain.Country;
 import com.example.exception.CountryNotExistException;
 import com.example.exception.NotValidDataException;
+import com.example.utils.TestData;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 @SpringBootTest
 public class SearchCountryListConverterDtoImplTest {
 
     private SearchCountryListConverterDtoImpl searchConverterDto;
 
+    private TestData testData;
+
     @Before
     public void before(){
         this.searchConverterDto = new SearchCountryListConverterDtoImpl();
+        this.testData = new TestData();
     }
 
     @Test
     public void convertList(){
-        List<Country> countryList = createCountryList();
+        List<Country> countryList = testData.createCountryList();
         List<SearchCountryDto> searchCountryDtoList = searchConverterDto.convert(countryList);
         assertTrue(searchCountryDtoList.size() == countryList.size());
     }
@@ -49,15 +50,4 @@ public class SearchCountryListConverterDtoImplTest {
         assertNotNull(searchCountryDtoList.get(0).getError());
     }
 
-    private List<Country> createCountryList(){
-        Country country = new Country();
-        country.setName("Bangladesh");
-        Country country2 = new Country();
-        country2.setName("Egypet");
-
-        List<Country> result = new ArrayList<>();
-        result.add(country);
-        result.add(country2);
-        return result;
-    }
 }

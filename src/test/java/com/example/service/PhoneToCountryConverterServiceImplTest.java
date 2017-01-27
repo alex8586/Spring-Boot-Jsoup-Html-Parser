@@ -4,6 +4,7 @@ import com.example.database.DataInMemory;
 import com.example.domain.Country;
 import com.example.exception.CountryNotExistException;
 import com.example.exception.NotValidDataException;
+import com.example.utils.TestData;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -31,9 +32,12 @@ public class PhoneToCountryConverterServiceImplTest {
     @InjectMocks
     private PhoneToCountryConverterService phoneToCountryConverterService;
 
+    private TestData testData;
+
     @Before
     public void before() {
         this.phoneToCountryConverterService = new PhoneToCountryConverterServiceImpl();
+        this.testData = new TestData();
         MockitoAnnotations.initMocks(this);
     }
 
@@ -55,20 +59,10 @@ public class PhoneToCountryConverterServiceImplTest {
     @Test
     public void shouldPassWhenEverythingOk() throws NotValidDataException, CountryNotExistException{
         String phone = "+654321";
-        List<Country> countryList = getCountriesList();
+        List<Country> countryList = testData.createCountryList();
         when(dataInMemory.getCountryByPhone(anyString())).thenReturn(countryList);
         List<Country> result = phoneToCountryConverterService.getListCountries(phone);
         assertTrue(result.size() == 2);
     }
 
-    public List<Country> getCountriesList(){
-        Country country = new Country();
-        country.setName("China");
-        Country country2 = new Country();
-        country.setName("Canada");
-        List<Country> countryList = new ArrayList<>();
-        countryList.add(country);
-        countryList.add(country2);
-        return countryList;
-    }
 }
